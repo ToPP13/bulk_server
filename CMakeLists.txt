@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.2)
 
 
 if (DEFINED ENV{TRAVIS_BUILD_NUMBER})
-    project(libasync VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
+    project(bulk_server_lib VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 else ()
-    project(libasync VERSION 0.0.1)
+    project(bulk_server_lib VERSION 0.0.1)
 endif ()
 
 # Load settings for an external project.
@@ -40,7 +40,7 @@ file (GLOB MAIN_INCLUDES
 #source_group("include" FILES ${MAIN_INCLUDES})
 
 
-add_library(libasync src/lib.cpp
+add_library(bulk_server_lib src/lib.cpp
         src/interpreter.cpp
         src/commandstorage.cpp
         src/lib.cpp
@@ -53,7 +53,7 @@ add_executable(gtest test/gtest.cpp test/gtest.cpp src/interpreter.cpp src/comma
 
 
 # Set propertiess to a target.
-set_target_properties(bulk_server libasync gtest PROPERTIES
+set_target_properties(bulk_server bulk_server_lib gtest PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
 )
@@ -71,16 +71,16 @@ set_target_properties(gtest PROPERTIES
     INCLUDE_DIRECTORIES ${GTEST_INCLUDE_DIRS}
 )
 
-target_link_libraries(bulk_server PRIVATE libasync pthread ${Boost_LIBRARIES})
+target_link_libraries(bulk_server PRIVATE bulk_server_lib pthread ${Boost_LIBRARIES})
 #target_link_libraries(bulk_client PRIVATE ${Boost_LIBRARIES})
-target_link_libraries(gtest ${GTEST_LIBRARIES} libasync ${GTEST_MAIN_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
+target_link_libraries(gtest ${GTEST_LIBRARIES} bulk_server_lib ${GTEST_MAIN_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 
 # Add compile options to a target.
 if (MSVC)
     target_compile_options(bulk_server PRIVATE
         /W4
     )
-    target_compile_options(libasync PRIVATE
+    target_compile_options(bulk_server_lib PRIVATE
         /W4
     )
     target_compile_options(gtest PRIVATE
@@ -90,7 +90,7 @@ else ()
     target_compile_options(bulk_server PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
-    target_compile_options(libasync PRIVATE
+    target_compile_options(bulk_server_lib PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
     target_compile_options(gtest PRIVATE
