@@ -16,7 +16,7 @@ void CommandStorage::add_command(const string & command)
 
 std::string CommandStorage::get_bulk() const
 {
-    std::string result = "bulk: ";
+    std::string result = "";
     for (auto iter = _commands.begin(); iter != _commands.end(); iter++) {
         if (iter != _commands.begin())
             result += (", " + *iter);
