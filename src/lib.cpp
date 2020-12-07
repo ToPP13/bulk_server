@@ -8,20 +8,16 @@ int version()
 }
 
 
+std::mutex mutex_lib_data;
+LibData global_lib_data;
+
 uint connect(uint batch_size)
 {
-    if (LibData::isDefaultInterpreterOff())
-        LibData::createDefaultInterpreter(batch_size);
-
-    if (!LibData::logger.is_log_on())
-        LibData::logger.turn_log_on();
-
-    if (!LibData::logger.is_print_on())
-        LibData::logger.turn_print_on();
-
-    static uint context = 0;
-    context += batch_size;
-
+    uint context;
+    {
+        std::lock_guard<std::mutex> lockGuard{mutex_lib_data};
+        context = global_lib_data.connect(batch_size);
+    }
     return context;
 }
 
@@ -29,16 +25,17 @@ uint connect(uint batch_size)
 void recieve(const char * buffer, uint buffer_size, uint context)
 {
     std::string command = std::string(buffer, buffer_size);
-
-    std::string res = LibData::pDefault_interpreter->process(command, context);
-    if (!res.empty())
-        LibData::logger.log(res);
+    {
+        std::lock_guard<std::mutex> lockGuard{mutex_lib_data};
+        global_lib_data.process(command, context);
+    }
 }
 
 
 void disconnect(uint context)
 {
-    std::string res = LibData::pDefault_interpreter->stop_processing(context);
-    if (!res.empty())
-        LibData::logger.log(res);
+    {
+        std::lock_guard<std::mutex> lockGuard{mutex_lib_data};
+        global_lib_data.disconnect(context);
+    }
 }

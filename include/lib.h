@@ -1,8 +1,11 @@
 #pragma once
 
 #include "stdlib.h"
+#include "libdata.h"
 
 int version();
+
+//extern LibData global_lib_data;
 
 uint connect(uint batch_size);
 

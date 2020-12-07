@@ -86,9 +86,13 @@ std::string Interpreter::stop_processing(uint context)
 
     std::string res;
 
-    if (!_scb.empty())
-        res = _scb.get_bulk();
+    if (_bracket_counters.empty())
+    {
+        if (!_scb.empty())
+            res = _scb.get_bulk();
 
-    _scb.clear();
+        _scb.clear();
+    }
+
     return res;
 }
