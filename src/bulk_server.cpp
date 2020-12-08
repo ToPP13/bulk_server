@@ -43,31 +43,10 @@ private:
                                         split_vector_type commands; // #2: Search for tokens
                                         split(commands, str_data, boost::algorithm::is_any_of("\n") );
 
-
-                                        std::vector<std::string> testSeries1 = {"cmd1", "cmd2", "cmd3", "cmd4", "cmd5"};
-                                        std::vector<std::string> testSeries2 = {"cmd1", "cmd2", "{", "cmd3", "cmd4", "}",
-                                                                                "{",  "cmd5", "cmd6", "{", "cmd7", "cmd8", "}", "cmd9", "}",
-                                                                                "{",  "cmd10", "cmd11"};
-
-                                        auto newEnd = std::remove_if(commands.begin(), commands.end(), [](std::string & s) {
-                                            return s=="";
-                                        });
-                                        commands.erase(newEnd, commands.end());
-
-                                        uint context1 = connect(_batch_size);
-                                        uint context2 = connect(_batch_size);
-
-                                        for (auto & command : testSeries1)
-                                            recieve(command.c_str(), command.size(), context1);
-                                        for (auto & command : testSeries2)
-                                            recieve(command.c_str(), command.size(), context2);
-                                        disconnect(context1);
-                                        disconnect(context2);
-//
-//                                        uint context = connect(_batch_size);//
-//                                        for (auto & command : commands)
-//                                            recieve(command.c_str(), command.size(), context);
-//                                        disconnect(context);
+                                        uint context = connect(_batch_size);//
+                                        for (auto & command : commands)
+                                            recieve(command.c_str(), command.size(), context);
+                                        disconnect(context);
 
                                     }
                                 });
