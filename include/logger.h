@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <iostream>
-#include <string>
-#include <mutex>
-#include <thread>
-#include <queue>
 #include <atomic>
-#include <sstream>
 #include <fstream>
+#include <iostream>
+#include <mutex>
+#include <queue>
+#include <sstream>
+#include <string>
+#include <thread>
 
 std::string string_from_int(long num);
 bool file_exists (const std::string& name);
