@@ -73,7 +73,7 @@ set_target_properties(gtest PROPERTIES
 )
 
 target_link_libraries(bulk_server PRIVATE bulk_server_lib pthread ${Boost_LIBRARIES})
-target_link_libraries(gtest ${GTEST_LIBRARIES} bulk_server_lib pthread ${GTEST_MAIN_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
+target_link_libraries(gtest ${GTEST_LIBRARIES} bulk_server_lib pthread ${GTEST_MAIN_LIBRARIES} ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
 # Add compile options to a target.
 if (MSVC)
