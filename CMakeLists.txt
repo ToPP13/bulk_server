@@ -34,11 +34,6 @@ file (GLOB MAIN_INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h*
         )
 
-#
-#source_group("src" FILES ${MAIN_SRC})
-#source_group("test" FILES ${MAIN_TEST})
-#source_group("include" FILES ${MAIN_INCLUDES})
-
 
 add_library(bulk_server_lib src/lib.cpp
         src/interpreter.cpp
@@ -49,7 +44,13 @@ add_library(bulk_server_lib src/lib.cpp
 add_executable(bulk_server
         src/bulk_server.cpp)
 # Add an executable to the project using the specified source files.
-add_executable(gtest test/gtest.cpp test/gtest.cpp src/interpreter.cpp src/commandstorage.cpp src/lib.cpp)
+add_executable(gtest
+        test/gtest.cpp
+        src/interpreter.cpp
+        src/commandstorage.cpp
+        src/lib.cpp
+        src/libdata.cpp
+        src/logger.cpp)
 
 
 # Set propertiess to a target.
@@ -61,7 +62,6 @@ set_target_properties(bulk_server bulk_server_lib gtest PROPERTIES
 # Add include directories to a target.
 # CMAKE_BINARY_DIR - The path to the top level of the build tree.
 target_include_directories(bulk_server PRIVATE "${CMAKE_BINARY_DIR}" ${Boost_INCLUDE_DIRS})
-#target_include_directories(bulk_client PRIVATE "${CMAKE_BINARY_DIR}" ${Boost_INCLUDE_DIRS})
 
 # Add include directories to the build.
 include_directories(${GTEST_INCLUDE_DIR})
@@ -72,8 +72,7 @@ set_target_properties(gtest PROPERTIES
 )
 
 target_link_libraries(bulk_server PRIVATE bulk_server_lib pthread ${Boost_LIBRARIES})
-#target_link_libraries(bulk_client PRIVATE ${Boost_LIBRARIES})
-target_link_libraries(gtest ${GTEST_LIBRARIES} bulk_server_lib ${GTEST_MAIN_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
+target_link_libraries(gtest ${GTEST_LIBRARIES} bulk_server_lib pthread ${GTEST_MAIN_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 
 # Add compile options to a target.
 if (MSVC)
