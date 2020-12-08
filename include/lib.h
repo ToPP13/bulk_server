@@ -1,7 +1,7 @@
 #pragma once
 
 #include "stdlib.h"
-#include "../include/libdata.h"
+#include "libdata.h"
 
 int version();
 
