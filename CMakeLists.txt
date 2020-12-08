@@ -62,6 +62,7 @@ set_target_properties(bulk_server bulk_server_lib gtest PROPERTIES
 # Add include directories to a target.
 # CMAKE_BINARY_DIR - The path to the top level of the build tree.
 target_include_directories(bulk_server PRIVATE "${CMAKE_BINARY_DIR}" ${Boost_INCLUDE_DIRS})
+target_include_directories(gtest PRIVATE "${CMAKE_BINARY_DIR}" ${Boost_INCLUDE_DIRS})
 
 # Add include directories to the build.
 include_directories(${GTEST_INCLUDE_DIR})
